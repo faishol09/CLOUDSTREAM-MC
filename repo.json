@@ -1,0 +1,10 @@
+{
+  "name": "IndoStream",
+  "type": "repo",
+  "addons": [
+    {
+      "name": "NgefilmJS",
+      "url": ""
+    }
+  ]
+}
