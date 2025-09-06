@@ -4,7 +4,8 @@
   "addons": [
     {
       "name": "NgefilmJS",
-      "url": "https://raw.githubusercontent.com/faishol09/CLOUDSTREAM-MC/refs/heads/main/ngefilm.csx"
+      "url": "https://raw.githubusercontent.com/faishol09/CLOUDSTREAM-MC/main/ngefilm.csx
+"
     }
   ]
 }
