@@ -1,5 +1,5 @@
 // Cloudstream Addon JS untuk Ngefilm
-// Simpel: ambil list film, detail, dan link streaming
+// Versi minimal, fokus jalan dulu
 
 const baseUrl = "https://new16.ngefilm.site"; // kalau domain berubah, ganti ini aja
 
@@ -7,11 +7,12 @@ export default new class Ngefilm extends ScriptedProvider {
     constructor() {
         super()
         this.id = "ngefilm"
-        this.name = "Ngefilm"
+        this.name = "NgefilmJS"
         this.language = "id"
         this.mainUrl = baseUrl
     }
 
+    // Halaman utama (list film)
     async getMainPage(page) {
         const html = await this.request(`${baseUrl}/page/${page}/`, { method: "GET" })
         const $ = this.parseHTML(html)
@@ -21,15 +22,18 @@ export default new class Ngefilm extends ScriptedProvider {
             const title = $(e).find("h2 a").text()
             const url = $(e).find("h2 a").attr("href")
             const poster = $(e).find("img").attr("src")
-            results.push({
-                url,
-                title,
-                poster,
-            })
+            if (title && url) {
+                results.push({
+                    url,
+                    title,
+                    poster
+                })
+            }
         })
         return results
     }
 
+    // Detail film (judul, poster, link)
     async getDetail(url) {
         const html = await this.request(url, { method: "GET" })
         const $ = this.parseHTML(html)
@@ -40,10 +44,13 @@ export default new class Ngefilm extends ScriptedProvider {
 
         const links = []
         $("iframe").forEach(e => {
-            links.push({
-                url: $(e).attr("src"),
-                isM3u8: false,
-            })
+            const src = $(e).attr("src")
+            if (src) {
+                links.push({
+                    url: src,
+                    isM3u8: src.includes(".m3u8")
+                })
+            }
         })
 
         return {
